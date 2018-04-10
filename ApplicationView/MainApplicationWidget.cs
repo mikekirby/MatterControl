@@ -750,34 +750,8 @@ namespace MatterHackers.MatterControl
 		/// <returns>A boolean value indicating if the print was canceled</returns>
 		public bool ConditionalCancelPrint()
 		{
-			bool canceled = false;
-
-			if (PrinterConnectionAndCommunication.Instance.SecondsPrinted > 120)
-			{
-				StyledMessageBox.ShowMessageBox(
-					(bool response) =>
-					{
-						if (response)
-						{
-							UiThread.RunOnIdle(() => PrinterConnectionAndCommunication.Instance.Stop());
-							canceled = true;
-						}
-
-						canceled = false;
-					},
-					"Cancel the current print?".Localize(),
-					"Cancel Print?".Localize(),
-					StyledMessageBox.MessageType.YES_NO,
-					"Cancel Print".Localize(),
-					"Continue Printing".Localize());
-			}
-			else
-			{
-				PrinterConnectionAndCommunication.Instance.Stop();
-				canceled = false;
-			}
-
-			return canceled;
+            UiThread.RunOnIdle(() => PrinterConnectionAndCommunication.Instance.Stop());
+            return true;
 		}
 	}
 
